@@ -12,9 +12,6 @@ import numpy as np
 import random
 import glob
 
-#dataset=pd.read_csv('./StatsData/Kickstarter_2019/*.csv')
-
-
 
 path = './StatsData/Kickstarter_2019'# use your path
 all_files = glob.glob(path + "/*.csv")
