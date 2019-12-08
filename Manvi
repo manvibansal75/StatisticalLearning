@@ -28,11 +28,11 @@ df = pd.concat(dataset, axis=0, ignore_index=True)
 #print(df.head(1))
 
 
-df['master_category'] = [json.loads(c)['slug'].split('/')[0] for c in df['category'].to_list()]
-df['category'] = [json.loads(c)['slug'] for c in df['category'].to_list()]
-df['created_at'] = [datetime.fromtimestamp(d) for d in df['created_at'].to_list()]
-df['deadline'] = [datetime.fromtimestamp(d) for d in df['deadline'].to_list()]
-df['launched_at'] = [datetime.fromtimestamp(d) for d in df['launched_at'].to_list()]
+df['master_category'] = [json.loads(c)['slug'].split('/')[0] for c in df['category'].tolist()]
+df['category'] = [json.loads(c)['slug'] for c in df['category'].tolist()]
+df['created_at'] = [datetime.fromtimestamp(d) for d in df['created_at'].tolist()]
+df['deadline'] = [datetime.fromtimestamp(d) for d in df['deadline'].tolist()]
+df['launched_at'] = [datetime.fromtimestamp(d) for d in df['launched_at'].tolist()]
 df['currency_trailing_code'][df['currency_trailing_code']] = 1
 df['spotlight'][df['spotlight']] = 1
 df['staff_pick'][df['staff_pick']] = 1
@@ -52,11 +52,12 @@ for i in range (len (df.index)):
    df ['funding_duration'][i] = (str( df['deadline'][i] - df ['launched_at'][i]).split())[0]
    df ['pre_launch_duration'][i] = (str( df['launched_at'][i] - df ['created_at'][i]).split())[0]
 
-
+"""
 len (df.index)
 df['failed'] = 0
 df['failed'][df['state']=='failed'] = 1
 #print(df['name_length'])
+"""
 
 #country to continent
 c1=0
@@ -97,9 +98,9 @@ df.to_pickle('data.pkl')
 df = pd.read_pickle('data.pkl')
 df2= pd.read_pickle('data.pkl')
 
-df.to_pickle('data_removedRows.pkl')
-df= pd.read_pickle('data_removedRows.pkl')
-df2= pd.read_pickle('data_removedRows.pkl')
+#df.to_pickle('data_removedRows.pkl')
+#df= pd.read_pickle('data_removedRows.pkl')
+#df2= pd.read_pickle('data_removedRows.pkl')
 
 le = LabelEncoder() 
 df2['spotlight']= le.fit_transform(df2['spotlight']) #need to one hot 
@@ -163,18 +164,23 @@ df2 = df2.drop ('location', axis = 1)
 df2 = df2.drop ('launched_at', axis = 1)
 df2 = df2.drop ('name', axis = 1)
 df2 = df2.drop ('pledged', axis = 1)
-df2 = df2.drop ('failed', axis = 1)
+#df2 = df2.drop ('failed', axis = 1)
  
 
 
-df2.to_pickle('data_allDone.pkl')
-df2= pd.read_pickle('data_allDone.pkl')
+#df2.to_pickle('data_allDone.pkl')
+#df2= pd.read_pickle('data_allDone.pkl')
 
 df2.columns.tolist()
 df2.head(5)
 #no_need = ['backers_count', 'goal','spot_1', 'spot_2', 'is_starrable', 'blurb_count','continent_1', 'continent_2', 'continent_3', 'curr_1', 'curr_2', 'curr_3', 'curr_4','curr_5','curr_6', ]
 
+X = df2.drop(["successful"], axis=1)
+y = df2['successful']
 
+
+
+#################Run before this Kanaee ###################
 
 #Random Forest
 X = df2.drop(["successful"], axis=1)
